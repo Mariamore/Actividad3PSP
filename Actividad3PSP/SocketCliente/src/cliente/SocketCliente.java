@@ -45,7 +45,7 @@ public class SocketCliente {
 				
 				if(respuesta.equals("Usuario loggeado")) {
 					
-					System.out.println("Cliente-> El servidor dice " + respuesta);
+					System.out.println("Cliente -> El servidor dice " + respuesta);
 					
 					int opcion = menu();
 					
@@ -89,7 +89,7 @@ public class SocketCliente {
 					break;
 				}else {
 					
-					System.out.println("Cliente-> El servidor dice " + respuesta + " intentos restantes: " +(3-i));
+					System.out.println("Cliente -> El servidor dice " + respuesta + " intentos restantes: " +(3-i));
 					if (i == 3) {
 						System.out.println("Intentos agotados");
 						break;
@@ -111,9 +111,6 @@ public class SocketCliente {
 			System.out.println("Error -> Tipo de dato introducido incorrecto");
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
 	
 	public static String login() {

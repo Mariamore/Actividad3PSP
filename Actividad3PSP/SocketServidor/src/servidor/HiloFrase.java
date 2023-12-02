@@ -35,7 +35,7 @@ public class HiloFrase implements Runnable{
 	
 	@Override
 	public void run() {
-		System.out.println("Estableciendo comunicación con hilo " + hilo.getName());
+		System.out.println("Servidor -> Estableciendo comunicación con hilo " + hilo.getName());
 		PrintStream salida = null;
 		InputStreamReader entrada = null;
 		BufferedReader entradaBf = null;
@@ -55,30 +55,30 @@ public class HiloFrase implements Runnable{
 			while(continuar) {
 				
 				info = entradaBf.readLine();
-				System.out.println("Recibida información de login");
-				
+				System.out.println("Servidor -> Recibida información de login");
+				if (info == null) {
+					System.out.println("Servidor -> Agotados intentos de login");
+					System.out.println("Servidor -> El cliente ha cerrado la conexión");
+					continuar = false;
+					break;
+				}
 				String[] infoPartes = info.split("-");
 				
 				String nombreUsuario = infoPartes[0];
 				String pwdUsuario = infoPartes[1];
-				
-//				if(!u.comprobarNombreUsuario(nombreUsuario) || !u.comprobarPassword(pwdUsuario) ) {
-					
+				//Comprobamos si el nombre de usuario y la contraseña son correctos	
 					if(!u.comprobarNombreUsuario(nombreUsuario)) {
-						System.out.println("Nombre incorrecto");
+						System.out.println("Servidor -> Nombre incorrecto");
 						salida.println("Nombre incorrecto");
 						
 					} else if (!u.comprobarPassword(pwdUsuario)){
-						System.out.println("Contraseña incorrecta");
+						System.out.println("Servidor -> Contraseña incorrecta");
 						salida.println("Contraseña incorrecta");
 						
-//					} 
-					
-					
-				} else {
+					} else {
 					
 					salida.println("Usuario loggeado");
-					System.out.println("Usuario Loggeado");
+					System.out.println("Servidor -> Usuario Loggeado");
 					
 					
 					KeyGenerator generador = KeyGenerator.getInstance("AES");
@@ -99,9 +99,7 @@ public class HiloFrase implements Runnable{
 						String opcion = infoPartes[0];
 						int opcionNum = Integer.valueOf(opcion);
 						String frase = infoPartes[1];
-						
-						
-						
+						//Si el cliente elige la opcion 3, se cierra el programa
 						if (opcionNum == 3){
 							System.out.println("Servidor -> el " + hilo.getName() + " ha elegido la opción " + opcionNum);
 							System.out.println("Servidor -> el " + hilo.getName() + " dice " + frase);
@@ -130,6 +128,15 @@ public class HiloFrase implements Runnable{
 		
 	}
 	
+	/**
+	 * Método que sincronizado que cifra o descifra mediante una clave simétrica la frase que se le pase
+	 * @param frase la frase a encriptar o desencriptar
+	 * @param opcion el número de la opción seleccionada por el cliente, para saber si hay que cifrar o descifrar
+	 * @param cifrador el objeto que nos permite cifrar/descifrar
+	 * @param claveSimetrica la clave que usaremos para cifrar/descifrar
+	 * @return devuelve fraseCifrada en caso de que hayamos cifrado, o fraseDescifrada si hemos descifrado,
+	 * también devuelve null en caso de que se produzca una excepción
+	 */
 	public synchronized String cifrarFrase(String frase, int opcion, Cipher cifrador, SecretKey claveSimetrica) {
 		
 		try {
@@ -139,9 +146,6 @@ public class HiloFrase implements Runnable{
 				cifrador.init(Cipher.ENCRYPT_MODE, claveSimetrica);
 				byte[] bytesFraseOriginal = frase.getBytes();
 				System.out.println("Servidor -> Cifrando la frase original");
-//				byte[] bytesFraseCifrada = cifrador.doFinal(bytesFraseOriginal);
-//				String fraseCifrada = new String(bytesFraseCifrada);
-//				System.out.println("Cliente -> Frase cifrada: " + fraseCifrada);
 				byte[] cipherText = cifrador.doFinal(bytesFraseOriginal);
 				String fraseCifrada = new String(Base64.getEncoder().encodeToString(cipherText));
 				System.out.println("Servidor -> Frase cifrada: " + fraseCifrada);

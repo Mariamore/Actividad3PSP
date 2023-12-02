@@ -22,6 +22,7 @@ public class Usuarios implements IntGestionUsuarios {
 		
 	}
 	
+	//Creamos el método cargarDatos() para poder tener cargados 3 usuarios en el servidor
 	private void cargarDatos() throws NoSuchAlgorithmException {
 		
 		Usuario u1 = new Usuario("Ironman", "Iron1234.");
@@ -51,6 +52,12 @@ public class Usuarios implements IntGestionUsuarios {
 		
 	}
 	
+	/**
+	 * Método que compueba si el nombre del usuario existe en la lista
+	 * @param nombreUsuario el nombre de usuario a comprobar
+	 * @return devuelve true si existe un usuario con ese nombre, devuelve 
+	 * false en caso contrario 
+	 */
 	@Override
 	public boolean comprobarNombreUsuario(String nombreUsuario) {
 		Usuario u2 = new Usuario();
@@ -70,6 +77,13 @@ public class Usuarios implements IntGestionUsuarios {
 		
 	}
 	
+	
+	/**
+	 * Método que compueba si la contraseña existe en la lista
+	 * @param password la contraseña a comprobar
+	 * @return devuelve true si existe un usuario con esa contraseña, devuelve 
+	 * false en caso contrario 
+	 */
 	@Override
 	public boolean comprobarPassword(String password){
 		Usuario uComprobar = new Usuario();
