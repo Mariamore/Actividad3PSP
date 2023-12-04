@@ -152,7 +152,11 @@ public class Menu {
 			    			break;
 			    		case 2:
 			    			//método para desencriptar la frase 
-			    			desencriptarFrase();
+			    			if(claveSimetrica==null) {
+			    				System.out.println("Antes debe encriptar alguna frase");
+			    			}else {	
+			    				desencriptarFrase();
+			    			}
 			    			break;	
 			    		case 3:
 			    			System.out.println("Fin del programa");
