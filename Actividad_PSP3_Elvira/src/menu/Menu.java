@@ -83,6 +83,7 @@ public class Menu {
 				//Capturamos excepciones
 			} catch (GeneralSecurityException  gse) {
 				System.out.println("Error:.... "+ gse.getMessage());
+				System.out.println("Error: No se puede desencriptar una frase sin haber encriptado otra");
 			}	
 		}
 		
